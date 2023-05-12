@@ -1,0 +1,55 @@
+* { 
+    margin: 0%;
+}
+
+body {
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: url("./images/zombiegame-\ background.png");
+    background-size:cover ;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+}
+
+.menu-items{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    padding-top: 50px;
+    color: rgb(178, 109, 227);
+}     
+
+.start-button {
+    display: flex;
+    font-size: 40px;
+    padding: 20px;
+    background-color: #7100b1;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 50px;
+    z-index: 1;
+}
+
+.gamemenu-button {
+    display: flex;
+    justify-content: right;
+    margin-right: 40px;
+    margin-top: 50px;
+}
+.gamemenu-button a{
+    font-size: 25px;
+    padding: 15px;
+    background-color: #7100b7b1;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    z-index: 1;
+    user-select: none;
+}
+
+
