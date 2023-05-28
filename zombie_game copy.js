@@ -1,8 +1,10 @@
-var hunter = { x: 700, y: 400, speed: 5, size: 61 };
+var hunter = { x: 700, y: 400, speed: 7, size: 61 , iframe: 0};
 var zombies = [];
 var hearts = 3;
 var bulletCooldown = 0;
 var bullets = [];
+var score = 0;
+var MedKit = {x: random(0, canvas.width), y: random(0, canvas.height)}
 
 var themeSong = new Audio("./sounds/z.mp3");
 
@@ -33,6 +35,7 @@ function bulletsCollisionChecker(object, iValue) {
     for (var i = 0; i < bullets.length; i++) {
       if (distance(bullets[i].x, bullets[i].y, objectCenter.x, objectCenter.y) <= 30.5) {
         object.health -= 50;
+        score += 3
         // .splice används för att ta bort ett objekt från list. i är positionen i listan och 1 står för hur många objekt som ska tas bort
         bullets.splice(i, 1);
       }
@@ -40,6 +43,7 @@ function bulletsCollisionChecker(object, iValue) {
   }
   if (object.health <= 0) {
     object.health = 0;
+    score += 7
     zombies.splice(iValue, 1);
   }
 }
@@ -53,20 +57,24 @@ function distanceBetween(point1, point2) {
 
 function update() {
   clearScreen();
-  themeSong.play();
+  text(canvas.width/2 - 70, 50, 25, `score: ${Math.round(score)}`, "orange");
+  score += 0.0333
+ // themeSong.play();
   picture(hunter.x, hunter.y, "images/hunter-left.png");
   /* rectangle(hunter.x+13, hunter.y-50, 20, 40, "black") */
 
+  for(var j = 0; j < zombies.length; j++){
+    if(distanceBetween(zombies[j], hunter) < 60 && hunter.iframe == 0) {
+      hearts = hearts - 1;
+      hunter.iframe = 15
+    }
+  }
   // heart image
   for (var i = 0; i < hearts; i++) {
     picture(40 + i * 25, 40, "images/heart.png");
-    for(var j = 0; j < zombies.length; j++){
-      if(distanceBetween(zombies[j], hunter) < 60) {
-        hearts = hearts - 1;
-      }
-    }
-    
   }
+
+  if(hunter.iframe > 0){hunter.iframe--}
 
   shootGun();
 
@@ -106,7 +114,7 @@ function update() {
     var newZombie = {
       x: Math.random() * screen.width,
       y: Math.random() * screen.height,
-      speed: Math.random() * 4 + 1, // Random speed between 1 and 4
+      speed: Math.random() * 5 + 1, // Random speed between 1 and 5
       health: 100
     };
     while (distanceBetween(newZombie, hunter) < 200) {
@@ -131,6 +139,7 @@ function update() {
   }
     if (hearts < 1){
     hearts === 0
+    themeSong.pause();
     text(500, 300, 50, "Game Over!", "red");
     stopUpdate();
     }
