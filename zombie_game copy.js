@@ -1,3 +1,7 @@
+let objectCenter = {x: 0, y:0};
+var songPause = false;
+let themeSong = new Audio("./sounds/z.mp3");
+var pauseCooldown = 0
 var hunter = { x: 700, y: 400, speed: 7, size: 61 , iframe: 0};
 var zombies = [];
 var hearts = 3;
@@ -5,8 +9,6 @@ var bulletCooldown = 0;
 var bullets = [];
 var score = 0;
 var MedKit = {x: random(0, canvas.width), y: random(0, canvas.height)}
-
-var themeSong = new Audio("./sounds/z.mp3");
 
 function shootGun() {
   if (mouse.left && bulletCooldown === 0) {
@@ -26,7 +28,7 @@ function shootGun() {
   }
 }
 
-let objectCenter = {x: 0, y:0};
+
 
 function bulletsCollisionChecker(object, iValue) {
   objectCenter.x = (object.x+35);
@@ -59,7 +61,22 @@ function update() {
   clearScreen();
   text(canvas.width/2 - 70, 50, 25, `score: ${Math.round(score)}`, "orange");
   score += 0.0333
- // themeSong.play();
+
+  if(songPause === false)
+ //   themeSong.play();
+  if( keyboard.space && songPause === false && pauseCooldown === 0) {
+    themeSong.pause()
+    themeSong.currentTime = 0
+    songPause = true
+    pauseCooldown = 20 
+  }
+  if(pauseCooldown > 0){
+    pauseCooldown--
+  }
+  if(keyboard.space && songPause === true && pauseCooldown === 0) {
+    themeSong.play()
+  }
+
   picture(hunter.x, hunter.y, "images/hunter-left.png");
   /* rectangle(hunter.x+13, hunter.y-50, 20, 40, "black") */
 
@@ -91,19 +108,19 @@ function update() {
   }
 
   // update hunter position
-  if (keyboard.d) {
+  if (keyboard.d || keyboard.right) {
     hunter.x += hunter.speed;
     /*hunter.direction = "d"; // update direction to right*/
   }
-  if (keyboard.a) {
+  if (keyboard.a || keyboard.left) {
     hunter.x -= hunter.speed;
     /*hunter.direction = "a"; // update direction to left*/
   }
-  if (keyboard.w) {
+  if (keyboard.w || keyboard.up) {
     hunter.y -= hunter.speed;
     /* hunter.direction = "w"; // update direction to up*/
   }
-  if (keyboard.s) {
+  if (keyboard.s || keyboard.down) {
     hunter.y += hunter.speed;
     /*hunter.direction = "s"; // update direction to down*/
   }
