@@ -68,7 +68,7 @@ function update() {
 
   if (songPause === false)
     if (keyboard.space && songPause === false && pauseCooldown === 0) {
-      //  themeSong.play();
+      themeSong.play();
       themeSong.pause();
       themeSong.currentTime = 0;
       songPause = true;
